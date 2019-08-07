@@ -13,6 +13,7 @@ public class Password extends AppCompatActivity {
     ImageButton next;
     ImageView imageView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,5 +26,7 @@ public class Password extends AppCompatActivity {
         input.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         input.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         imageView.setImageResource(R.drawable.password);
+
+
     }
 }
