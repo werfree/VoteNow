@@ -33,12 +33,13 @@ public class Phone extends AppCompatActivity {
             public void onClick(View v) {
                 phoneNo = input.getText().toString();
                 if (phoneNo.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Phone Number Field is Empty", Toast.LENGTH_SHORT).show();
+                    input.setError("Enter the Phone Number");
+
                 } else if (phoneNo.length() != 10) {
-                    Toast.makeText(getApplicationContext(), "Phone Number Must be of 10digits ", Toast.LENGTH_SHORT).show();
+                    input.setError("Phone Number Must be of 10digits");
                 } else {
                     phoneNo="+91"+phoneNo;
-                    Intent intent = new Intent(Phone.this, V_Code.class);
+                    Intent intent = new Intent(Phone.this, Password.class);
                     intent.putExtra("phnNo", phoneNo);
                     startActivity(intent);
                 }

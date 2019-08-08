@@ -1,5 +1,6 @@
 package com.example.votenow;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,11 +64,13 @@ public class V_Code extends AppCompatActivity {
     }
 
     private void verifyCode() {
-        String code=input.getText().toString();
-        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(phoneVerificationId,code);
-        signWithPhoneAuthCredential(phoneAuthCredential);
-        Toast.makeText(getApplicationContext(),"Verification Done",Toast.LENGTH_LONG).show();
+        String code = input.getText().toString();
+        if (code.isEmpty()) {
+            Toast.makeText(this,"Code Is Empty",Toast.LENGTH_LONG).show();
 
+        }
+        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(phoneVerificationId, code);
+        signWithPhoneAuthCredential(phoneAuthCredential);
     }
 
     private void sendCode(String phnNo) {
@@ -106,8 +109,11 @@ public class V_Code extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(getApplicationContext(),"Verification Done",Toast.LENGTH_LONG).show();
                             FirebaseUser user = task.getResult().getUser();
+                            Intent intent = new Intent(V_Code.this,Password.class);
+                            intent.putExtra("phnNo",phnNo);
+                            startActivity(intent);
                         }else {
-                            Toast.makeText(getApplicationContext(),"Verification Code is invalid",Toast.LENGTH_LONG).show();
+
                         }
                     }
                 });
