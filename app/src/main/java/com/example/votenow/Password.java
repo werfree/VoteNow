@@ -20,8 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.votenow.Retrofit.RetrofitClint;
-import com.example.votenow.Retrofit.Server;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,12 +106,12 @@ public class Password extends AppCompatActivity {
         queue.start();
         JSONObject jsonObject = new JSONObject();
 
-        String url = "http://192.168.31.183:5555/register";
+        //String url = "http://192.168.31.183:5555/register";
+        String url = "http://chisel-trawler.glitch.me/register";
         try {
             jsonObject.accumulate("name", getName);
             jsonObject.accumulate("phn",getPhnNo);
             jsonObject.accumulate("passw", md5(getPassword));
-            Toast.makeText(getApplicationContext(),"JObject",Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }

@@ -12,6 +12,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Phone extends AppCompatActivity {
     EditText input;
     ImageButton next;
@@ -41,14 +51,52 @@ public class Phone extends AppCompatActivity {
                 } else if (phoneNo.length() != 10) {
                     input.setError("Phone Number Must be of 10digits");
                 } else {
-                    phoneNo=phoneNo;
-                    Intent intent = new Intent(Phone.this, Password.class);
-                    intent.putExtra("phnNo", phoneNo);
-                    startActivity(intent);
+                    volley();
                 }
             }
 
         });
     }
 
+    private void volley() {
+        final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.start();
+        JSONObject jsonObject = new JSONObject();
+
+        //String url = "http://192.168.31.183:5555/register";
+        String url = "http://chisel-trawler.glitch.me/register_check";
+        try {
+            jsonObject.accumulate("phn", phoneNo);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                                Intent intent = new Intent(Phone.this, Password.class);
+                                intent.putExtra("phnNo", phoneNo);
+                                startActivity(intent);
+
+
+
+
+
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(),"Phone Number Already Register",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Phone.this, Login.class);
+                        intent.putExtra("phnNo", phoneNo);
+                        startActivity(intent);
+                    }
+                });
+
+        queue.add(jsonObjectRequest);
+
+    }
 }

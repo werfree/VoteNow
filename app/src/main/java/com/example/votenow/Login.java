@@ -100,11 +100,10 @@ public class Login extends AppCompatActivity {
         queue.start();
         JSONObject jsonObject = new JSONObject();
 
-        String url = "http://192.168.31.183:5555/login";
+        String url = "http://chisel-trawler.glitch.me/login";
         try {
             jsonObject.accumulate("phn",getPhone);
             jsonObject.accumulate("passw", md5(getPassword));
-            Toast.makeText(getApplicationContext(),"JObject",Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
