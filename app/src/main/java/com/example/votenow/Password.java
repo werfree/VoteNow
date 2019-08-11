@@ -51,8 +51,8 @@ public class Password extends AppCompatActivity {
         //Server
 
 
-       Retrofit retrofitClint = RetrofitClint.getInstance();
-        server=retrofitClint.create(Server.class);
+          Retrofit retrofitClint = RetrofitClint.getInstance();
+         server=retrofitClint.create(Server.class);
         
         
         next.setOnClickListener(new View.OnClickListener() {
@@ -95,14 +95,20 @@ public class Password extends AppCompatActivity {
 
     private void register() {
 
-        compositeDisposable.add(server.registerUser("gsayantan01@gmail.com","9831516058","123456")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String response) throws Exception {
-                        Toast.makeText(Password.this,""+response,Toast.LENGTH_LONG).show();
-                    }
-                }));
+        try {
+
+            compositeDisposable.add(server.registerUser("gsayantan01@gmail.com", "9831516058", "123456")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(String response) throws Exception {
+                            Toast.makeText(Password.this, "" + response, Toast.LENGTH_LONG).show();
+                        }
+                    }));
+        }
+        catch (Exception e){
+            Toast.makeText(Password.this, "" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

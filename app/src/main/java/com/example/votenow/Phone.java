@@ -41,7 +41,7 @@ public class Phone extends AppCompatActivity {
                     input.setError("Phone Number Must be of 10digits");
                 } else {
                     phoneNo="+91"+phoneNo;
-                    Intent intent = new Intent(Phone.this, V_Code.class);
+                    Intent intent = new Intent(Phone.this, Password.class);
                     intent.putExtra("phnNo", phoneNo);
                     startActivity(intent);
                 }
