@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -40,12 +41,14 @@ public class Phone extends AppCompatActivity {
                 } else if (phoneNo.length() != 10) {
                     input.setError("Phone Number Must be of 10digits");
                 } else {
-                    phoneNo="+91"+phoneNo;
+                    phoneNo=phoneNo;
                     Intent intent = new Intent(Phone.this, Password.class);
                     intent.putExtra("phnNo", phoneNo);
                     startActivity(intent);
                 }
             }
+
         });
     }
+
 }

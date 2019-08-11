@@ -9,6 +9,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+
 public class Login extends AppCompatActivity {
 
     ImageButton next;
@@ -47,6 +61,20 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    public String md5(String s) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes(Charset.forName("US-ASCII")),0,s.length());
+            byte[] magnitude = digest.digest();
+            BigInteger bi = new BigInteger(1, magnitude);
+            return String.format("%0"+(magnitude.length << 1) + "x",bi);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return "";
+    }
+
     private void check() {
 
         getPhone=phn.getText().toString();
@@ -61,8 +89,50 @@ public class Login extends AppCompatActivity {
         }else if(getPassword.length()<4){
             password.setError("Password must be of 4 letters");
         }else {
-            getPhone="+91"+getPhone;
-            Toast.makeText(this,"Successful Login: "+getPhone,Toast.LENGTH_LONG).show();
+            getPhone=getPhone;
+            volley();
         }
+    }
+
+
+    private void volley() {
+        final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.start();
+        JSONObject jsonObject = new JSONObject();
+
+        String url = "http://192.168.31.183:5555/login";
+        try {
+            jsonObject.accumulate("phn",getPhone);
+            jsonObject.accumulate("passw", md5(getPassword));
+            Toast.makeText(getApplicationContext(),"JObject",Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try{
+                            if(response.getBoolean("Done")==true){
+                                Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            Toast.makeText(getApplicationContext(),"Login Fail",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        queue.add(jsonObjectRequest);
+        // Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_SHORT).show();
     }
 }
