@@ -1,5 +1,6 @@
 package com.example.votenow;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class Login extends AppCompatActivity {
     TextView register;
 
     String getPhone,getPassword;
+    ProgressDialog progressDialog;
 
 
 
@@ -42,6 +44,15 @@ public class Login extends AppCompatActivity {
         password=findViewById(R.id.inputPassword);
         next=findViewById(R.id.next);
         register=findViewById(R.id.register);
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Login In");
+        progressDialog.setMessage("Please Wait While We Log In");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
 
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +107,12 @@ public class Login extends AppCompatActivity {
 
 
     private void volley() {
+        progressDialog.show();
         final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.start();
         JSONObject jsonObject = new JSONObject();
 
-        String url = "http://chisel-trawler.glitch.me/login";
+        String url =getResources().getString(R.string.URL)+"login" ;
         try {
             jsonObject.accumulate("phn",getPhone);
             jsonObject.accumulate("passw", md5(getPassword));
@@ -115,10 +127,12 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
+                            progressDialog.dismiss();
                             if(response.getBoolean("Done")==true){
                                 Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
                             }
                         }catch (Exception e){
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Login Fail",Toast.LENGTH_SHORT).show();
                         }
 
@@ -127,7 +141,8 @@ public class Login extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "LogIn Fail", Toast.LENGTH_LONG).show();
                     }
                 });
 

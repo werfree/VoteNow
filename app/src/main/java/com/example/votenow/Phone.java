@@ -1,5 +1,6 @@
 package com.example.votenow;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class Phone extends AppCompatActivity {
     ImageButton next;
     ImageView imageView;
     String phoneNo;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,19 @@ public class Phone extends AppCompatActivity {
         next = findViewById(R.id.next);
         imageView = findViewById(R.id.imageView);
 
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Checking Phone Number");
+        progressDialog.setMessage("Please Wait While We Check Your Phone Number");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
+
         input.setHint("Phone Number");
         input.setInputType(InputType.TYPE_CLASS_PHONE);
         imageView.setImageResource(R.drawable.phone);
+
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +71,7 @@ public class Phone extends AppCompatActivity {
     }
 
     private void volley() {
+        progressDialog.show();
         final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.start();
         JSONObject jsonObject = new JSONObject();
@@ -75,6 +88,7 @@ public class Phone extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                                progressDialog.dismiss();
                                 Intent intent = new Intent(Phone.this, Password.class);
                                 intent.putExtra("phnNo", phoneNo);
                                 startActivity(intent);
@@ -89,6 +103,7 @@ public class Phone extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"Phone Number Already Register",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(Phone.this, Login.class);
                         intent.putExtra("phnNo", phoneNo);

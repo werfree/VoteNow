@@ -1,5 +1,6 @@
 package com.example.votenow;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +52,7 @@ public class Password extends AppCompatActivity {
     ImageButton next;
     EditText name, password, c_password;
     TextView phone;
-
+    ProgressDialog progressDialog;
 
     String getPhnNo, getName, getPassword, getCPassword;
 
@@ -66,6 +68,14 @@ public class Password extends AppCompatActivity {
         password = findViewById(R.id.inputPassword);
         c_password = findViewById(R.id.inputConfirmPassword);
         phone = findViewById(R.id.inputPhone);
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Signing Up");
+        progressDialog.setMessage("Please Wait While We Register You");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
 
         getPhnNo = getIntent().getStringExtra("phnNo");
         phone.setText(getPhnNo);
@@ -102,12 +112,13 @@ public class Password extends AppCompatActivity {
     }
 
     private void volley() {
+        progressDialog.show();
         final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.start();
         JSONObject jsonObject = new JSONObject();
 
         //String url = "http://192.168.31.183:5555/register";
-        String url = "http://chisel-trawler.glitch.me/register";
+        String url =getResources().getString(R.string.URL)+"register" ;
         try {
             jsonObject.accumulate("name", getName);
             jsonObject.accumulate("phn",getPhnNo);
@@ -121,10 +132,12 @@ public class Password extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),response.getString("name"), Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(Password.this,Login.class);
                             startActivity(intent);
                         } catch (JSONException e) {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Response error",Toast.LENGTH_SHORT).show();
                         }
 
@@ -133,6 +146,7 @@ public class Password extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                     }
                 });
