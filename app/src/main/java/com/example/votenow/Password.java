@@ -51,8 +51,8 @@ public class Password extends AppCompatActivity {
         //Server
 
 
-       /* Retrofit retrofitClint = RetrofitClint.getInstance();
-        server=retrofitClint.create(Server.class);*/
+       Retrofit retrofitClint = RetrofitClint.getInstance();
+        server=retrofitClint.create(Server.class);
         
         
         next.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +89,7 @@ public class Password extends AppCompatActivity {
             Toast.makeText(this,"Password did not match with Confirm Password",Toast.LENGTH_LONG).show();
         }else {
             Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
+            register();
         }
     }
 
