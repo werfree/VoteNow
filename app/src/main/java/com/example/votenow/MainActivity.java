@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 catch (Exception e){
                     e.printStackTrace();
                 }finally {
-                    Intent mainIntent = new Intent(MainActivity.this,Phone.class);
+                    Intent mainIntent = new Intent(MainActivity.this,Login.class);
                     startActivity(mainIntent);
                     finish();
 

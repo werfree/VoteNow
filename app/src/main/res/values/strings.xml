@@ -4,5 +4,6 @@
     <string name="phone">Phone</string>
     <string name="password">Password</string>
     <string name="cpassword">Confirm Password</string>
+    <string name="register">New User? Register?</string>
     <string name="title_activity_phone">Phone</string>
 </resources>

@@ -65,6 +65,7 @@ public class V_Code extends AppCompatActivity {
 
     private void verifyCode() {
         String code = input.getText().toString();
+        Toast.makeText(this,""+code,Toast.LENGTH_LONG).show();
         if (code.isEmpty()) {
             Toast.makeText(this,"Code Is Empty",Toast.LENGTH_LONG).show();
 
@@ -96,6 +97,12 @@ public class V_Code extends AppCompatActivity {
                     public void onVerificationFailed(FirebaseException e) {
                         Toast.makeText(getApplicationContext(),e.getMessage().toString(),Toast.LENGTH_LONG).show();
 
+                    }
+
+                    @Override
+                    public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        phoneVerificationId=s;
+                        resendingToken=forceResendingToken;
                     }
                 };
     }

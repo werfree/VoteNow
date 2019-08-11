@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ public class Phone extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         input = findViewById(R.id.inputText);
         next = findViewById(R.id.next);
         imageView = findViewById(R.id.imageView);
@@ -39,7 +41,7 @@ public class Phone extends AppCompatActivity {
                     input.setError("Phone Number Must be of 10digits");
                 } else {
                     phoneNo="+91"+phoneNo;
-                    Intent intent = new Intent(Phone.this, Password.class);
+                    Intent intent = new Intent(Phone.this, V_Code.class);
                     intent.putExtra("phnNo", phoneNo);
                     startActivity(intent);
                 }

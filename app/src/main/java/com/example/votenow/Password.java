@@ -29,9 +29,8 @@ public class Password extends AppCompatActivity {
 
     String getPhnNo,getName,getPassword,getCPassword;
 
-
-    /*CompositeDisposable compositeDisposable = new CompositeDisposable();
-    Server server;*/
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    Server server;
 
 
     @Override
@@ -93,7 +92,7 @@ public class Password extends AppCompatActivity {
         }
     }
 
-   /* private void register() {
+    private void register() {
 
         compositeDisposable.add(server.registerUser("gsayantan01@gmail.com","9831516058","123456")
                 .subscribeOn(Schedulers.io())
@@ -104,5 +103,5 @@ public class Password extends AppCompatActivity {
                         Toast.makeText(Password.this,""+response,Toast.LENGTH_LONG).show();
                     }
                 }));
-    }*/
+    }
 }
