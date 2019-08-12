@@ -63,7 +63,11 @@ public class Phone extends AppCompatActivity {
                 } else if (phoneNo.length() != 10) {
                     input.setError("Phone Number Must be of 10digits");
                 } else {
-                    volley();
+                    //volley();
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(Phone.this, V_Code.class);
+                    intent.putExtra("phnNo", phoneNo);
+                    startActivity(intent);
                 }
             }
 
@@ -97,6 +101,7 @@ public class Phone extends AppCompatActivity {
 
 
 
+
                     }
 
                 },
@@ -105,7 +110,7 @@ public class Phone extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"Phone Number Already Register",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(Phone.this, Login.class);
+                        Intent intent = new Intent(Phone.this, Password.class);
                         intent.putExtra("phnNo", phoneNo);
                         startActivity(intent);
                     }

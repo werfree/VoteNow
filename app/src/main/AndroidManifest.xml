@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".StartPage"></activity>
         <activity android:name=".V_Code" />
         <activity android:name=".Password" />
         <activity android:name=".Phone" />

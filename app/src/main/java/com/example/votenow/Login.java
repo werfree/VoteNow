@@ -2,9 +2,12 @@ package com.example.votenow;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,16 +26,19 @@ import org.json.JSONObject;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
+import java.util.prefs.Preferences;
 
 public class Login extends AppCompatActivity {
 
     ImageButton next;
     EditText phn,password;
     TextView register;
+    CheckBox checkBox;
 
     String getPhone,getPassword;
     ProgressDialog progressDialog;
-
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor meditor;
 
 
     @Override
@@ -44,6 +50,7 @@ public class Login extends AppCompatActivity {
         password=findViewById(R.id.inputPassword);
         next=findViewById(R.id.next);
         register=findViewById(R.id.register);
+        checkBox=findViewById(R.id.checkBox);
 
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("Login In");
@@ -52,6 +59,13 @@ public class Login extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
+
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        meditor = sharedPreferences.edit();
+        getPhone=sharedPreferences.getString("number",null);
+
+
+        checkLogin();
 
 
 
@@ -70,6 +84,17 @@ public class Login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void checkLogin() {
+        getPhone=sharedPreferences.getString("number","null");
+        if(getPhone=="null"){
+            Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else{
+            Toast.makeText(this, "Log In As"+getPhone, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public String md5(String s) {
@@ -130,6 +155,12 @@ public class Login extends AppCompatActivity {
                             progressDialog.dismiss();
                             if(response.getBoolean("Done")==true){
                                 Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
+                                if(checkBox.isChecked()) {
+
+                                    meditor.putString("number", getPhone);
+                                    meditor.commit();
+                                }
+
                             }
                         }catch (Exception e){
                             progressDialog.dismiss();

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-
+    tools:context=".StartPage">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
@@ -48,71 +47,41 @@
                         android:id="@+id/imageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/login"
+                        android:src="@drawable/codes"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:contentDescription="TODO" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
 
 
             </RelativeLayout>
 
             <EditText
-                android:id="@+id/inputPhone"
+                android:id="@+id/inputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/background_light"
                 android:focusable="true"
-                android:hint="@string/phone"
+                android:hint="@string/voteCode"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:textAlignment="center"
-                android:textSize="24sp"
-                android:inputType="phone"
-                android:autofillHints="" />
-            <EditText
-                android:id="@+id/inputPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/background_light"
-                android:focusable="true"
-                android:hint="@string/password"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:inputType="textPassword"
-                android:importantForAutofill="no" />
+                android:textSize="24sp" />
         </LinearLayout>
 
 
     </android.support.v7.widget.CardView>
 
-
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/register"
-        android:textAlignment="center"
-        android:textColor="@color/design_default_color_primary"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/next" />
-
     <ImageButton
         android:id="@+id/next"
         android:layout_width="wrap_content"
-        android:layout_height="83dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@android:color/transparent"
-        android:contentDescription="TODO"
         android:elevation="0.1dp"
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -120,17 +89,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/checkbox"
-        android:textColor="@color/design_default_color_primary"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:srcCompat="@drawable/menu" />
+
 </android.support.constraint.ConstraintLayout>

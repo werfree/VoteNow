@@ -1,5 +1,6 @@
 package com.example.votenow;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class V_Code extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks;
     private PhoneAuthProvider.ForceResendingToken resendingToken;
     private FirebaseAuth mAuth;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -50,8 +52,17 @@ public class V_Code extends AppCompatActivity {
         imageView.setImageResource(R.drawable.codes);
         phnNo=getIntent().getStringExtra("phnNo");
         Toast.makeText(this,phnNo,Toast.LENGTH_SHORT).show();
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Sending OTP");
+        progressDialog.setMessage("Please Wait While We Send The OTP");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
 
-        sendCode(phnNo);
+
+        sendCode("+91"+phnNo);
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,13 +76,15 @@ public class V_Code extends AppCompatActivity {
 
     private void verifyCode() {
         String code = input.getText().toString();
-        Toast.makeText(this,""+code,Toast.LENGTH_LONG).show();
-        if (code.isEmpty()) {
-            Toast.makeText(this,"Code Is Empty",Toast.LENGTH_LONG).show();
 
+        if (code.isEmpty()) {
+            Toast.makeText(this, "Code Is Empty", Toast.LENGTH_LONG).show();
+
+        } else {
+            Toast.makeText(this,"k"+code,Toast.LENGTH_LONG).show();
+            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(phoneVerificationId, code);
+            signWithPhoneAuthCredential(phoneAuthCredential);
         }
-        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(phoneVerificationId, code);
-        signWithPhoneAuthCredential(phoneAuthCredential);
     }
 
     private void sendCode(String phnNo) {
@@ -103,6 +116,7 @@ public class V_Code extends AppCompatActivity {
                     public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                         phoneVerificationId=s;
                         resendingToken=forceResendingToken;
+                        progressDialog.dismiss();
                     }
                 };
     }
@@ -114,12 +128,15 @@ public class V_Code extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Verification Done",Toast.LENGTH_LONG).show();
                             FirebaseUser user = task.getResult().getUser();
                             Intent intent = new Intent(V_Code.this,Password.class);
                             intent.putExtra("phnNo",phnNo);
                             startActivity(intent);
                         }else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Wrong Code",Toast.LENGTH_LONG).show();
 
                         }
                     }
