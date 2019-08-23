@@ -18,7 +18,7 @@ public class StartPage extends AppCompatActivity {
     LinearLayout logout,acnt,createVote;
     ImageButton next;
     EditText vCode;
-    String getvCode,name,id,phoneNumber;
+    private String getvCode,name,id,phoneNumber,getPassword;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor meditor;
 
@@ -43,6 +43,7 @@ public class StartPage extends AppCompatActivity {
         name=intent.getStringExtra("name");
         id=intent.getStringExtra("id");
         phoneNumber=intent.getStringExtra("phone");
+        getPassword=sharedPreferences.getString("password","null");
 
         Toast.makeText(this,name+" "+id,Toast.LENGTH_SHORT).show();
 
@@ -65,12 +66,30 @@ public class StartPage extends AppCompatActivity {
             }
         });
 
+        acnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                accountSettings();
+            }
+        });
+
+
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextIntent();
             }
         });
+    }
+
+    private void accountSettings() {
+        Intent intent = new Intent(StartPage.this,AccountSettings.class);
+        startActivity(intent);
+        intent.putExtra("name",name);
+        intent.putExtra("password",getPassword);
+        intent.putExtra("phone",phoneNumber);
+        startActivity(intent);
     }
 
     private void nextIntent() {

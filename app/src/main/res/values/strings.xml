@@ -10,5 +10,6 @@
     <string name="checkbox">Remember me</string>
     <string name="face">Capture Face</string>
     <string name="id">Upload Id</string>
-    !<string name="URL">http://chisel-trawler.glitch.me/</string>
+    !
+    <string name="URL">http://chisel-trawler.glitch.me/</string>
 </resources>

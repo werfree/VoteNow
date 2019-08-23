@@ -63,7 +63,7 @@ public class Verification extends AppCompatActivity {
     }
 
     public void check(){
-        if(faceBool==true && idBool==true){
+        if(faceBool == true && idBool == true){
             Toast.makeText(this,"Vote Done",Toast.LENGTH_LONG).show();
         }else if(faceBool==false){
             faceButton.setError("Face Not Uploaded");
