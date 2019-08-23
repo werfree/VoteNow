@@ -63,11 +63,9 @@ public class Phone extends AppCompatActivity {
                 } else if (phoneNo.length() != 10) {
                     input.setError("Phone Number Must be of 10digits");
                 } else {
-                    //volley();
-                    progressDialog.dismiss();
-                    Intent intent = new Intent(Phone.this, V_Code.class);
-                    intent.putExtra("phnNo", phoneNo);
-                    startActivity(intent);
+                    volley();
+
+
                 }
             }
 
@@ -93,7 +91,7 @@ public class Phone extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                                 progressDialog.dismiss();
-                                Intent intent = new Intent(Phone.this, Password.class);
+                                Intent intent = new Intent(Phone.this, V_Code.class);
                                 intent.putExtra("phnNo", phoneNo);
                                 startActivity(intent);
 
@@ -110,7 +108,7 @@ public class Phone extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"Phone Number Already Register",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(Phone.this, Password.class);
+                        Intent intent = new Intent(Phone.this, Login.class);
                         intent.putExtra("phnNo", phoneNo);
                         startActivity(intent);
                     }
@@ -118,5 +116,11 @@ public class Phone extends AppCompatActivity {
 
         queue.add(jsonObjectRequest);
 
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Phone.this,Login.class);
+        startActivity(intent);
+        finish();
     }
 }

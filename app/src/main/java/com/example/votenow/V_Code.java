@@ -143,4 +143,11 @@ public class V_Code extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(V_Code.this,Phone.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

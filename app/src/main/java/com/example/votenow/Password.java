@@ -2,8 +2,10 @@ package com.example.votenow;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -55,6 +57,9 @@ public class Password extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     String getPhnNo, getName, getPassword, getCPassword;
+    SharedPreferences sharedPreferences;
+
+    SharedPreferences.Editor meditor;
 
 
 
@@ -75,6 +80,9 @@ public class Password extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
+
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        meditor = sharedPreferences.edit();
 
 
         getPhnNo = getIntent().getStringExtra("phnNo");
@@ -135,6 +143,9 @@ public class Password extends AppCompatActivity {
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),response.getString("name"), Toast.LENGTH_LONG).show();
                             Intent intent=new Intent(Password.this,Login.class);
+                            meditor.putString("number", getPhnNo);
+                            meditor.putString("password",getPassword);
+                            meditor.commit();
                             startActivity(intent);
                         } catch (JSONException e) {
                             progressDialog.dismiss();
@@ -179,8 +190,10 @@ public class Password extends AppCompatActivity {
         }
     }
 
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Password.this,Phone.class);
+        startActivity(intent);
+        finish();
+    }
 }

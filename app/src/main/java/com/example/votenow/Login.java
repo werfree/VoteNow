@@ -38,31 +38,31 @@ public class Login extends AppCompatActivity {
     String getPhone,getPassword;
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor meditor;
+
+        SharedPreferences.Editor meditor;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_login);
 
-        phn=findViewById(R.id.inputPhone);
-        password=findViewById(R.id.inputPassword);
-        next=findViewById(R.id.next);
-        register=findViewById(R.id.register);
-        checkBox=findViewById(R.id.checkBox);
+            phn=findViewById(R.id.inputPhone);
+            password=findViewById(R.id.inputPassword);
+            next=findViewById(R.id.next);
+            register=findViewById(R.id.register);
+            checkBox=findViewById(R.id.checkBox);
 
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setTitle("Login In");
-        progressDialog.setMessage("Please Wait While We Log In");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
+            progressDialog=new ProgressDialog(this);
+            progressDialog.setMessage("Please Wait While We Log In");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.setTitle("Login In");
         progressDialog.setCanceledOnTouchOutside(false);
 
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         meditor = sharedPreferences.edit();
-        getPhone=sharedPreferences.getString("number",null);
 
 
         checkLogin();
@@ -88,12 +88,12 @@ public class Login extends AppCompatActivity {
 
     private void checkLogin() {
         getPhone=sharedPreferences.getString("number","null");
-        if(getPhone=="null"){
-            Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show();
+        getPassword=sharedPreferences.getString("password","null");
+        if(getPhone.equals("null") || getPassword.equals("null")){
             return;
         }
         else{
-            Toast.makeText(this, "Log In As"+getPhone, Toast.LENGTH_SHORT).show();
+            volley();
         }
     }
 
@@ -154,14 +154,21 @@ public class Login extends AppCompatActivity {
                         try{
                             progressDialog.dismiss();
                             if(response.getBoolean("Done")==true){
-                                Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
                                 if(checkBox.isChecked()) {
 
                                     meditor.putString("number", getPhone);
+                                    meditor.putString("password",getPassword);
                                     meditor.commit();
                                 }
 
                             }
+                            String name=response.getString("Name");
+                            String id = response.getString("ID");
+                            Intent intent = new Intent(Login.this,StartPage.class);
+                            intent.putExtra("name",name);
+                            intent.putExtra("id",id);
+                            startActivity(intent);
+                            finish();
                         }catch (Exception e){
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Login Fail",Toast.LENGTH_SHORT).show();
@@ -179,5 +186,11 @@ public class Login extends AppCompatActivity {
 
         queue.add(jsonObjectRequest);
         // Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        moveTaskToBack(true);
     }
 }
