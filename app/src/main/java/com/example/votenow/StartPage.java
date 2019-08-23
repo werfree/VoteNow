@@ -18,7 +18,7 @@ public class StartPage extends AppCompatActivity {
     LinearLayout logout,acnt,createVote;
     ImageButton next;
     EditText vCode;
-    String getvCode,name,id;
+    String getvCode,name,id,phoneNumber;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor meditor;
 
@@ -42,6 +42,8 @@ public class StartPage extends AppCompatActivity {
 
         name=intent.getStringExtra("name");
         id=intent.getStringExtra("id");
+        phoneNumber=intent.getStringExtra("phone");
+
         Toast.makeText(this,name+" "+id,Toast.LENGTH_SHORT).show();
 
 
