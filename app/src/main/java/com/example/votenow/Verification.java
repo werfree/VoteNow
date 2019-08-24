@@ -55,7 +55,7 @@ public class Verification extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent,0);
+                    startActivityForResult(cameraIntent,456);
             }
         });
 
@@ -75,6 +75,7 @@ public class Verification extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode!=456) return;
         try {
             bitmap=(Bitmap)data.getExtras().get("data");
             circleImageView.setImageBitmap(bitmap);
